@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Peso Printing</title>
+    <link rel="icon" type="image/png" href="assets/images.jpeg" />
+    <link rel="stylesheet" href="header.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="Footer.css" />
+    <style>
+
+/* === RESET DAN BODY === */
+body {
+  background: linear-gradient(to bottom right, #f0f8ff, #e4f0ff);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+}
+
+/* === TOMBOL FILTER === */
+.filter-btn {
+  background: rgba(255, 255, 255, 0.7);
+  border: 2px solid #1d4ed8;
+  color: #1d4ed8;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+  backdrop-filter: blur(3px);
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: #0066cc;
+  color: white;
+}
+
+/* === LAYOUT UTAMA === */
+main {
+  display: flex;
+  padding: 2rem;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: auto;
+  flex-wrap: wrap;
+}
+
+/* === TOMBOL SHOW ALL === */
+button#toggleButton {
+  display: block;
+  width: 200px;
+  max-width: 90%;
+  margin: 20px auto;
+  padding: 12px 18px;
+  font-size: 16px;
+  border: none;
+  border-radius: 12px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 2rem;
+}
+
+button#toggleButton:hover {
+  background-color: #0056b3;
+}
+
+/* === MENU CONTAINER === */
+.menu-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  padding: 1rem 10px 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  overflow-y: auto;
+  padding: 2rem 10px 3rem;
+}
+
+.menu-container::-webkit-scrollbar {
+  width: 8px;
+}
+.menu-container::-webkit-scrollbar-thumb {
+  background: #1d4ed8;
+  border-radius: 10px;
+}
+.menu-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* === MENU ITEM === */
+.menu-item {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 0.5s ease;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+.menu-item.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.menu-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+/* === MENU ITEM CONTENT === */
+.menu-item-content {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  align-items: start;
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+  margin-bottom: 1.2rem;
+}
+
+.menu-item-content:hover {
+  transform: scale(1.01);
+}
+
+.menu-item-content h3 {
+  font-size: 1.1rem;
+  color: #007bff;
+  margin: 0;
+  text-align: left;
+}
+
+.menu-item-content span {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #007bff;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.menu-item-content p {
+  grid-column: 1 / span 2;
+  font-size: 0.9rem;
+  color: #444;
+  margin-top: 0.4rem;
+  text-align: left;
+}
+
+/* === FOOTER === */
+footer {
+  background: rgba(30, 58, 138, 0.9);
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  backdrop-filter: blur(5px);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .menu-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .menu-item-content {
+    padding: 0.8rem;
+  }
+
+  .menu-item-content h3 {
+    font-size: 1rem;
+  }
+
+  .menu-item-content span {
+    font-size: 0.9rem;
+  }
+
+  .menu-item-content p {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .menu-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* === GALERI BUKU (BOOK GALLERY) === */
+.book-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+  .book-gallery {
+    display: none !important;
+  }
+}
+
+/* === FLIP CARD === */
+.flip-card {
+  width: 250px;
+  height: 320px;
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner,
+.flip-card-inner.rotate {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.flip-card-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.flip-card-back {
+  background: linear-gradient(145deg, #1d4ed8, #3b82f6);
+  color: white;
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 1rem;
+  text-align: center;
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+/* === GALERI SLIDER === */
+.image-slider-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  background: #fff;
+  padding: 10px 0;
+}
+
+.gallery-slider {
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.gallery-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery {
+  display: flex;
+  gap: 20px;
+  padding: 10px 0;
+  width: max-content;
+}
+
+.gallery img {
+  width: 90vw;
+  max-width: 300px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+  transition: transform 0.3s;
+}
+
+.gallery img:hover {
+  transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === SLIDER BUTTON === */
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 24px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.3s;
+}
+
+.slider-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.slider-btn.prev {
+  left: 10px;
+}
+
+.slider-btn.next {
+  right: 10px;
+}
+
+/* Tampilkan slider hanya di HP */
+@media (min-width: 601px) {
+  .image-slider-container {
+    display: none !important;
+  }
+}
+
+/* === TOMBOL (KHUSUS HP) === */
+button {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  button {
+    display: block;
+  }
+}
+
+.recommended-section {
+  padding: 2rem 1rem;
+  background-color: #f7f9fc;
+  text-align: center;
+}
+
+.recommended-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #007bff;
+  font-weight: 700;
+}
+
+.recommended-container {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.recommended-item {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgb(0 0 0 / 0.1);
+  max-width: 250px;
+  width: 100%;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.recommended-item:hover {
+  transform: scale(1.05);
+}
+
+.recommended-item img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
+}
+
+.recommended-content {
+  padding: 1rem;
+  text-align: left;
+}
+
+.recommended-content h3 {
+  font-size: 1.25rem;
+  margin: 0 0 0.5rem;
+  color: #333;
+}
+
+.recommended-content p {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 0.75rem;
+}
+
+.recommended-content span {
+  font-weight: 700;
+  color: #007bff;
+  font-size: 1.1rem;
+}
+
+/* Sembunyikan di layar besar (misal lebih dari 768px) */
+@media (min-width: 769px) {
+  .menu-container {
+    display: none !important;
+  }
+}
+
+/* Tampilkan di layar kecil (max 768px) */
+@media (max-width: 768px) {
+  .menu-container {
+    display: block !important; /* atau display sesuai kebutuhan */
+  }
+}
+
+@media(min-width: 768px) {
+
+  .menu-item-content{
+    display: none;
+  }
+}
+
+.flip-card-back p {
+  margin: 0.5rem 1rem;      /* jarak atas bawah dan kiri kanan */
+  font-size: 1rem;          /* ukuran font nyaman */
+  line-height: 1.4;         /* jarak antar baris */
+  color: #ffffff;              /* warna teks */
+  word-wrap: break-word;    /* memecah kata panjang agar tidak keluar kotak */
+  overflow-wrap: break-word;/* kompatibilitas tambahan */
+  max-height: 150px;        /* batas tinggi maksimal p */
+  overflow-y: auto;         /* scroll vertikal jika teks terlalu banyak */
+  text-align: left;         /* rata kiri */
+  padding-right: 5px;       /* beri ruang untuk scrollbar jika muncul */
+}
+
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="left-group">
+          <div class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <div class="logo">
+            <a href="index.html">
+              <img src="assets/images.jpeg" alt="Logo" class="logo-img" />
+              <span class="logo-text">Digital Printing | Aluminium | Cafe</span>
+            </a>
+          </div>
+        </div>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li class="dropdown" onclick="toggleDropdown(event)">
+            <a href="#" class="dropbtn">Services</a>
+            <div class="dropdown-content">
+              <a href="print.html">Printing</a>
+              <a href="openingmenu.html">Cafe</a>
+              <a href="alu.html">Aluminium</a>
+            </div>
+          </li>
+          <li><a href="contact.html">Information</a></li>
+          <li><a href="Maps.html">Map</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- <nav>
+  <button class="filter-btn active" data-category="all">All</button>
+  <button class="filter-btn" data-category="food">Food</button>
+  <button class="filter-btn" data-category="drinks">Drinks</button>
+  <button class="filter-btn" data-category="desserts">Desserts</button>
+</nav> -->
+
+  <main>
+
+<section class="image-slider-container">
+  <!-- <button class="slider-btn prev">&lt;</button> -->
+
+  <div class="gallery-slider">
+    <div class="gallery">
+      <img src="assets/download (10).png" alt="Image 1" />
+      <img src="assets/download (11).png" alt="Image 2" />
+      <img src="assets/download (12).png" alt="Image 3" />
+      <img src="assets/download (13).png" alt="Image 4" />
+      <!-- Tambah gambar sesuai kebutuhan -->
+    </div>
+  </div>
+
+  <!-- <button class="slider-btn next">&gt;</button> -->
+</section>
+
+
+
+<section class="book-gallery">
+  <div class="flip-card">
+    <div class="flip-card-inner">
+      <div class="flip-card-front">
+        <img src="assets/download (10).png" alt="Menu 1" />
+      </div>
+      <div class="flip-card-back">
+        <h3>Menu Special #1</h3>
+        <p></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-card">
+    <div class="flip-card-inner">
+      <div class="flip-card-front">
+        <img src="assets/download (11).png" alt="Menu 2" />
+      </div>
+      <div class="flip-card-back">
+        <h3>Menu Special #2</h3>
+        <p>🍗 "Lalapan" Dishes (with raw veggies & sambal)<br>
+Fried Duck (Half) – $6.00<br>
+Fried Duck (Quarter) – $3.50<br>
+Free-Range Chicken (Half) – $6.00<br>
+Fried Chicken – $3.00<br>
+Fried Catfish (2 pcs) – $5.00<br>
+Fried Tilapia (per ounce) – $1.50 per ounce<br>
+Patin Fish – $3.00<br>
+Crispy Chicken – $3.50<br>
+Nasi Tempong (Balinese-style spicy rice) – $3.50<br>
+Ayam Kremes (crispy crumb fried chicken) – $3.00<br>
+
+<br>
+🍜 Other Dishes<br>
+Bone Soup – $4.00<br>
+Chicken Noodles – $2.50<br>
+Chicken Soto (traditional chicken soup) – $2.50<br>
+Rawon (beef black soup) – $4.00<br>
+Fried Noodles – $3.50<br>
+Fish Soup – $3.00<br>
+Instant Fried/Boiled Noodles – $1.50<br></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-card">
+    <div class="flip-card-inner">
+      <div class="flip-card-front">
+        <img src="assets/download (12).png" alt="Menu 3" />
+      </div>
+      <div class="flip-card-back">
+        <h3>Menu Special #3</h3>
+        <p>🥤 Drinks<br>
+Passion Fruit Ice – $2.00<br>
+Tomato Ice – $2.00<br>
+Iced/Hot Tea – $1.50<br>
+Iced/Hot Lemon Tea – $1.50<br>
+Iced/Hot Lime – $1.50<br>
+Iced/Hot Black Coffee – $1.50<br>
+Iced/Hot Milk Coffee – $2.00<br>
+Iced Chocolate – $2.00<br>
+Iced Sweet Jelly – $1.50<br>
+Ginger Tea – $1.00<br>
+Joshua (local drink) – $1.50<br>
+Es Doger (iced coconut dessert drink) – $2.00<br>
+Beer – $2.00<br>
+Beer Tower – $25.00<br>
+
+<br>
+🥤 Soft Drinks<br>
+Coca-Cola – $1.50<br>
+Fanta – $1.50<br>
+Sprite – $1.50<br>
+
+<br>
+🍹 Fresh Juices<br>
+Avocado Juice – $2.00<br>
+Watermelon Juice – $2.00<br>
+Mango Juice – $2.00<br>
+Orange Juice – $2.00<br>
+
+<br></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-card">
+    <div class="flip-card-inner">
+      <div class="flip-card-front">
+        <img src="assets/download (13).png" alt="Menu 4" />
+      </div>
+      <div class="flip-card-back">
+        <h3>Menu Special #4</h3>
+        <p>Rice Dishes (Nasi)<br>
+Teriyaki Chicken – $3.50<br>
+Sambal Matah Chicken – $3.50<br>
+Spicy Salted Chicken – $3.50<br>
+Spicy Korean Chicken – $3.50<br>
+Fried Rice – $3.50<br>
+Spiced Fried Rice – $3.50<br>
+Capcay with Rice – $4.00<br>
+<br>
+🍴 "Penyetan" Dishes (Smashed Fried Items)<br>
+Smashed Fried Tofu – $1.00<br>
+Smashed Fried Tempeh – $1.00<br>
+Smashed Fried Eggplant – $1.00<br>
+Smashed Fried Egg – $1.00<br>
+<br>
+🥟 Snacks<br>
+Chips – $2.50<br>
+Fried Tofu – $2.50<br>
+Tahu Gejrot (Tofu in spicy sweet soy sauce) – $2.50<br>
+Tahu Walik (Inside-out crispy tofu) – $3.00<br>
+Stuffed Tofu – $2.00<br>
+Crispy Tempeh – $2.00<br>
+Angsle (sweet warm dessert) – $2.00<br></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<button onclick="toggleGallery()">Show All</button>
+      <div class="gallery" id="gallery">
+<div class="menu-container">
+<section>
+  <h2>Nasi</h2>
+  <div class="menu-item-content">
+    <h3>Ayam Teriyaki</h3>
+    <p>Rice served with flavorful teriyaki chicken</p>
+    <span>$3.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Ayam Sambel Matah</h3>
+    <p>Rice with chicken topped with Balinese sambal matah</p>
+    <span>$3.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Ayam Cabe Garam</h3>
+    <p>Rice with crispy chicken tossed in chili garlic</p>
+    <span>$3.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Spicy Chicken Korea</h3>
+    <p>Rice with spicy Korean-style chicken</p>
+    <span>$3.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Nasi Goreng</h3>
+    <p>Classic Indonesian-style fried rice</p>
+    <span>$3.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Nasi Goreng Rempah</h3>
+    <p>Fried rice with aromatic local spices</p>
+    <span>$3.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Nasi Capcay</h3>
+    <p>Rice served with stir-fried vegetables</p>
+    <span>$4.00</span>
+  </div>
+
+  <h2>Penyetan</h2>
+  <div class="menu-item-content">
+    <h3>Tahu Penyet</h3>
+    <p>Fried tofu served with sambal and rice</p>
+    <span>$1.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Tempe Penyet</h3>
+    <p>Fried tempeh served with sambal and rice</p>
+    <span>$1.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Terong Penyet</h3>
+    <p>Fried eggplant served with sambal</p>
+    <span>$1.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Telur Penyet</h3>
+    <p>Fried egg served with sambal and rice</p>
+    <span>$1.00</span>
+  </div>
+
+  <h2>Snack</h2>
+  <div class="menu-item-content">
+    <h3>Chips</h3>
+    <p>Crunchy savory chips for a light bite</p>
+    <span>$2.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Tahu Goreng</h3>
+    <p>Deep-fried tofu, crispy outside, soft inside</p>
+    <span>$2.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Tahu Gejrot</h3>
+    <p>Tofu with sweet and spicy sauce</p>
+    <span>$2.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Tahu Walik</h3>
+    <p>Reversed fried tofu filled with savory stuffing</p>
+    <span>$3.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Tahu Isi</h3>
+    <p>Stuffed tofu with vegetables</p>
+    <span>$2.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Tempe Mendoan</h3>
+    <p>Soft thin fried tempeh in batter</p>
+    <span>$2.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Angsle</h3>
+    <p>Warm sweet dessert with coconut milk and glutinous rice</p>
+    <span>$2.00</span>
+  </div>
+
+  <h2>Minuman</h2>
+  <div class="menu-item-content">
+    <h3>Ice Markisa</h3>
+    <p>Chilled passion fruit drink</p>
+    <span>$2.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Ice Tomat</h3>
+    <p>Sweet and tangy tomato iced drink</p>
+    <span>$2.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Ice/Hot Tea</h3>
+    <p>Refreshing black tea, hot or cold</p>
+    <span>$1.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Ice/Hot Lemon Tea</h3>
+    <p>Citrus-infused black tea</p>
+    <span>$1.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Ice/Hot Jeruk Nipis</h3>
+    <p>Lime juice served hot or cold</p>
+    <span>$1.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Ice/Hot Coffee Hitam</h3>
+    <p>Black coffee, served hot or cold</p>
+    <span>$1.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Ice Coffee Susu</h3>
+    <p>Chilled coffee with condensed milk</p>
+    <span>$2.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Ice Nyoklat</h3>
+    <p>Chilled chocolate drink</p>
+    <span>$2.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Ice Sweet Jelly</h3>
+    <p>Sweet iced drink with jelly pieces</p>
+    <span>$1.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Wedang Jahe</h3>
+    <p>Warm ginger drink</p>
+    <span>$1.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Joshua</h3>
+    <p>Sweet creamy drink with ice</p>
+    <span>$1.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Es Doger</h3>
+    <p>Mixed shaved ice dessert with coconut and syrup</p>
+    <span>$2.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Beer</h3>
+    <p>Chilled refreshing beer</p>
+    <span>$2.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Beer Tower</h3>
+    <p>Large tower of beer for sharing</p>
+    <span>$25.00</span>
+  </div>
+
+  <h2>Soft Drink</h2>
+  <div class="menu-item-content">
+    <h3>Coca-Cola</h3>
+    <p>Classic cola soft drink</p>
+    <span>$1.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Fanta</h3>
+    <p>Fruity fizzy soft drink</p>
+    <span>$1.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Sprite</h3>
+    <p>Lemon-lime carbonated drink</p>
+    <span>$1.50</span>
+  </div>
+
+  <h2>Juice</h2>
+  <div class="menu-item-content">
+    <h3>Alpukat</h3>
+    <p>Fresh blended avocado juice</p>
+    <span>$2.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Semangka</h3>
+    <p>Fresh watermelon juice</p>
+    <span>$2.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Mangga</h3>
+    <p>Sweet mango juice</p>
+    <span>$2.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Jeruk</h3>
+    <p>Refreshing orange juice</p>
+    <span>$2.00</span>
+  </div>
+
+  <h2>Lalapan</h2>
+  <div class="menu-item-content">
+    <h3>Bebek Goreng 1/2 ekor</h3>
+    <p>Half portion fried duck with rice and sambal</p>
+    <span>$6.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Bebek Goreng 1/4 ekor</h3>
+    <p>Quarter portion fried duck with rice and sambal</p>
+    <span>$3.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Ayam Kampung 1/2 ekor</h3>
+    <p>Free-range chicken half portion, served with sambal</p>
+    <span>$6.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Ayam Goreng</h3>
+    <p>Fried chicken served with sambal</p>
+    <span>$3.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Ikan Lele Goreng (isi 2)</h3>
+    <p>Two fried catfish with sambal and rice</p>
+    <span>$5.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Ikan Nila Per-ons</h3>
+    <p>Fried tilapia sold per ounce</p>
+    <span>$1.50 per/ons</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Ikan Patin</h3>
+    <p>Fried or grilled patin fish</p>
+    <span>$3.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Ayam Geprek</h3>
+    <p>Smashed fried chicken with spicy sambal</p>
+    <span>$3.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Nasi Tempong</h3>
+    <p>Hot spicy rice with vegetables and side dishes</p>
+    <span>$3.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Ayam Kremes</h3>
+    <p>Fried chicken with crispy crumbs</p>
+    <span>$3.00</span>
+  </div>
+
+  <h2>Lain-Lain</h2>
+  <div class="menu-item-content">
+    <h3>Sop Tulang</h3>
+    <p>Bone soup with rich broth and meat</p>
+    <span>$4.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Mie Ayam</h3>
+    <p>Chicken noodle soup with savory flavor</p>
+    <span>$2.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Soto Ayam</h3>
+    <p>Indonesian chicken soup with spices</p>
+    <span>$2.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Rawon</h3>
+    <p>Traditional black beef soup</p>
+    <span>$4.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Mie Goreng</h3>
+    <p>Fried noodles with vegetables and egg</p>
+    <span>$3.50</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Sop Ikan</h3>
+    <p>Fresh fish soup with herbs and spices</p>
+    <span>$3.00</span>
+  </div>
+  <div class="menu-item-content">
+    <h3>Mie Goreng/Kuah Instan</h3>
+    <p>Instant noodles (fried or with broth)</p>
+    <span>$1.50</span>
+  </div>
+  </div>
+    </div>
+</section>
+
+
+
+  <section class="recommended-section">
+  <h2>Our Recommendations</h2>
+  <div class="recommended-container">
+    <div class="recommended-item" data-category="food">
+      <img src="assets/ayam kremes.png" alt="Ayam Kremes" />
+      <div class="recommended-content">
+        <h3>Ayam Kremes</h3>
+        <p>Fried rice with chicken, shrimp, and egg</p>
+        <span>$3.00</span>
+      </div>
+    </div>
+
+    <div class="recommended-item" data-category="food">
+      <img src="assets/lalapan lele.png" alt="Lalapan Lele" />
+      <div class="recommended-content">
+        <h3>Lalapan Lele</h3>
+        <p>Fried catfish served with fresh vegetables and sambal</p>
+        <span>$5.00</span>
+      </div>
+    </div>
+
+    <div class="recommended-item" data-category="food">
+      <img src="assets/spicy chicken korea.png" alt="Spicy Chicken Korea" />
+      <div class="recommended-content">
+        <h3>Spicy Chicken Korea</h3>
+        <p>Spicy Korean-style fried chicken with a crispy coating</p>
+        <span>$3.50</span>
+      </div>
+    </div>
+
+    <div class="recommended-item" data-category="food">
+      <img src="assets/yahu isi.png" alt="Tahu Isi" />
+      <div class="recommended-content">
+        <h3>Tahu Isi</h3>
+        <p>Deep-fried stuffed tofu with vegetables</p>
+        <span>$2.00</span>
+      </div>
+    </div>
+
+    <div class="recommended-item" data-category="drinks">
+      <img src="assets/zngsle.png" alt="Angsle" />
+      <div class="recommended-content">
+        <h3>Angsle</h3>
+        <p>Warm coconut milk dessert with palm sugar and beans</p>
+        <span>$2.00</span>
+      </div>
+    </div>
+
+    <div class="recommended-item" data-category="food">
+      <img src="assets/rawon 1.png" alt="Rawon" />
+      <div class="recommended-content">
+        <h3>Rawon</h3>
+        <p>Traditional Indonesian beef black soup with rich spices</p>
+        <span>$4.00</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="assets/images.jpeg" alt="Logo Perusahaan" />
+        </div>
+
+        <div class="footer-contact">
+          <h4>Contact us</h4>
+          <ul>
+            <li onclick="callNumber('+6281234567890')">
+              Admin Restourant : +670 7380 8481
+            </li>
+            <li onclick="callNumber('+6281398765432')">
+              Mr. Edo : +670 7475 1071
+            </li>
+            <li onclick="callNumber('+6282123456789')">
+              Mr. Ronny: +670 7372 7373
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-social">
+          <h4>Follow us</h4>
+          <div class="social-icons">
+            <a href="contact.html"
+              ><img
+                src="https://cdn-icons-png.flaticon.com/512/124/124010.png"
+                alt="Facebook"
+            /></a>
+            <a href="contact.html"
+              ><img
+                src="https://cdn-icons-png.flaticon.com/512/174/174855.png"
+                alt="Instagram"
+            /></a>
+            <!-- <a href="#"><img src="youtube-icon.png" alt="YouTube" /></a> -->
+          </div>
+        </div>
+
+        <div class="footer-location">
+          <h4>Location</h4>
+          <p>Rua de Nu'u Laran, Bairo dos Grillos No.17</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const filterButtons = document.querySelectorAll(".filter-btn");
+      const menuItems = document.querySelectorAll(".menu-item");
+
+      filterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          filterButtons.forEach((btn) => btn.classList.remove("active"));
+          button.classList.add("active");
+
+          const category = button.getAttribute("data-category");
+
+          menuItems.forEach((item) => {
+            if (
+              category === "all" ||
+              item.getAttribute("data-category") === category
+            ) {
+              item.style.display = "block";
+            } else {
+              item.style.display = "none";
+            }
+          });
+        });
+      });
+
+      // Animasi load menu items
+      window.addEventListener("DOMContentLoaded", () => {
+        const menuItems = document.querySelectorAll(".menu-item");
+        menuItems.forEach((item, index) => {
+          setTimeout(() => {
+            item.classList.add("show");
+          }, index * 100); // delay dikit satu-satu
+        });
+      });
+
+
+  document.querySelectorAll('.flip-card').forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('rotate');
+    });
+  });
+
+ function toggleGallery() {
+        const gal = document.getElementById("gallery");
+        gal.style.display = gal.style.display === "flex" ? "none" : "flex";
+      }
+
+
+  const gallerySlider = document.querySelector('.gallery-slider');
+  const prevBtn = document.querySelector('.slider-btn.prev');
+  const nextBtn = document.querySelector('.slider-btn.next');
+
+  prevBtn.addEventListener('click', () => {
+    gallerySlider.scrollBy({ left: -window.innerWidth * 0.9, behavior: 'smooth' });
+  });
+
+  nextBtn.addEventListener('click', () => {
+    gallerySlider.scrollBy({ left: window.innerWidth * 0.9, behavior: 'smooth' });
+  });
+
+
+    </script>
+    <script src="header.js"></script>
+  </body>
+</html>
